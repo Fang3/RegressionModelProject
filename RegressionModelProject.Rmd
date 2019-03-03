@@ -1,0 +1,68 @@
+---
+title: "Regression Model Project"
+subtitle: "Analyze the Impact of Car's Transmission Type to Miles per Gallon (MPG)"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Executive Summary
+
+The objective of this project is to analyze the relationship between a set of variables to miles per gallon (MPG) using the 'mtcars' data. In particular, we are most interested to learn:
+
+1) Is an automatic or manual transmission better for MPG?
+2) Quantify the MPG difference between automatic and manual transmissions.
+
+According to the final model, manual transmission car is better for MPG and yields 2.93 more MPG than automatic transmission car when holding car's weight and 1/4 mile time constant.
+
+### Exploratory Data Analysis
+
+```{r}
+head(mtcars)
+dim(mtcars)
+str(mtcars)
+
+mtcars$am <- factor(mtcars$am)
+mtcars$vs <- factor(mtcars$vs)
+
+plot(mtcars)
+
+boxplot(mtcars$mpg~mtcars$am,main='MPG by Transmission Type',xlab='Transmission Type',
+        ylab='Miles per Gallon',names=c('Automatic','Manual'))
+```
+
+From the scatterplots, we can see some variables are correlated with mpg. Also, the boxplot shows that the miles per gallon is different between manual transmission and automatic transmission car. To verify if the difference is significant and quantify the difference, we perform regression analysis.
+
+### Regression Analysis
+#### Simple Linear Regression
+
+```{r}
+fit <- lm(mpg~am,data=mtcars)
+summary(fit)$coef
+```
+
+The simple linear regression model result shows that on average, the manual transmission car yields 7.24 more miles per gallon than automatic transmission car. However, through the above scatterplot, we know other variables are correlated with mpg as well. Therefore, we fit multiple regression model and use stepwise selection to decide our final model. 
+
+#### Multiple Regression
+
+```{r}
+fitstep <- step(lm(mpg~.,data=mtcars),direction='both',trace = 0)
+summary(fitstep)
+anova(fit,fitstep)
+```
+
+The final model we decide to use include variables weight, transmission type and 1/4 mile time. We also perform ANOVA test to compare with the smiple linear regression model and confirm that adding these varaibles is significant. Also, the R^2 is 85% which tells us 85% of the variation in this model could be explained by the three selected variables.
+
+From the multiple regression model, we conclude that manual transmission car is better for MPG and yields 2.93 more MPG than automatic transmission car when holding car's weight and 1/4 mile time constant.
+
+#### Residual Plot Diagnostics
+
+```{r}
+par(mfrow=c(2,2))
+plot(fitstep)
+```
+
+The residual and fitted plot show that the variance are center around zero which means the variance are the same. Also, the normal qq plot shows the normality assumption hold in this model. Hence, we can say that the model is a good fit.
+
