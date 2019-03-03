@@ -48,12 +48,12 @@ car's weight and 1/4 mile time constant.
 
     plot(mtcars)
 
-![](RegressionModelProject_files/figure-markdown_strict/unnamed-chunk-1-1.png)
+![](unnamed-chunk-1-1.png)
 
     boxplot(mtcars$mpg~mtcars$am,main='MPG by Transmission Type',xlab='Transmission Type',
             ylab='Miles per Gallon',names=c('Automatic','Manual'))
 
-![](RegressionModelProject_files/figure-markdown_strict/unnamed-chunk-1-2.png)
+![](unnamed-chunk-1-2.png)
 
 From the scatterplots, we can see some variables are correlated with
 mpg. Also, the boxplot shows that the miles per gallon is different
@@ -131,7 +131,7 @@ transmission car when holding car's weight and 1/4 mile time constant.
     par(mfrow=c(2,2))
     plot(fitstep)
 
-![](RegressionModelProject_files/figure-markdown_strict/unnamed-chunk-4-1.png)
+![](unnamed-chunk-4-1.png)
 
 The residual and fitted plot show that the variance are center around
 zero which means the variance are the same. Also, the normal qq plot
